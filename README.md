@@ -1,6 +1,6 @@
 # Aktos Challenge API
 
-API para gerenciamento de contas de cobrança.
+Debt collection account management API.
 
 ## Live API
 
@@ -8,93 +8,93 @@ API para gerenciamento de contas de cobrança.
 
 ## Endpoints
 
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
+| Method | Endpoint | Description |
+|--------|----------|-------------|
 | GET | `/` | Health check |
-| GET | `/accounts/` | Lista contas com filtros |
-| POST | `/accounts/upload/` | Upload de CSV |
+| GET | `/accounts/` | List accounts with filters |
+| POST | `/accounts/upload/` | CSV upload |
 
-## Filtros disponíveis em `/accounts/`
+## Available Filters for `/accounts/`
 
-| Parâmetro | Descrição |
-|-----------|-----------|
-| `min_balance` | Valor mínimo (inclusivo) |
-| `max_balance` | Valor máximo (inclusivo) |
-| `consumer_name` | Busca por nome (parcial, case-insensitive) |
-| `status` | Status da conta: `INACTIVE`, `IN_COLLECTION`, `PAID_IN_FULL` |
+| Parameter | Description |
+|-----------|-------------|
+| `min_balance` | Minimum balance (inclusive) |
+| `max_balance` | Maximum balance (inclusive) |
+| `consumer_name` | Search by name (partial, case-insensitive) |
+| `status` | Account status: `INACTIVE`, `IN_COLLECTION`, `PAID_IN_FULL` |
 
-## Exemplos
+## Examples
 
 ```bash
 # Health check
 curl http://3.80.160.210:8000/
 
-# Listar todas as contas
+# List all accounts
 curl http://3.80.160.210:8000/accounts/
 
-# Filtrar por status
+# Filter by status
 curl "http://3.80.160.210:8000/accounts/?status=in_collection"
 
-# Filtrar por range de balance
+# Filter by balance range
 curl "http://3.80.160.210:8000/accounts/?min_balance=1000&max_balance=50000"
 
-# Filtrar por nome do consumer
+# Filter by consumer name
 curl "http://3.80.160.210:8000/accounts/?consumer_name=john"
 
-# Combinando filtros
+# Combining filters
 curl "http://3.80.160.210:8000/accounts/?min_balance=100&max_balance=50000&status=in_collection&consumer_name=williams"
 ```
 
-## Paginação
+## Pagination
 
-A API usa paginação por número de página (Page Number Pagination).
+The API uses Page Number Pagination.
 
-| Parâmetro | Descrição | Default |
-|-----------|-----------|---------|
-| `page` | Número da página | 1 |
-| `page_size` | Itens por página | 10 (max: 100) |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `page` | Page number | 1 |
+| `page_size` | Items per page | 10 (max: 100) |
 
-**Prós:**
-- Simples de usar e entender
-- Permite saltar para páginas específicas
-- Bom para UIs com números de página
+**Pros:**
+- Simple to use and understand
+- Allows jumping to specific pages
+- Good for UIs with page numbers
 
-**Contras:**
-- Resultados podem ser inconsistentes se dados mudam entre requisições
-- Não ideal para datasets muito grandes
-- Números de página podem mudar quando itens são adicionados/removidos
+**Cons:**
+- Results may be inconsistent if data changes between requests
+- Not ideal for very large datasets
+- Page numbers can shift when items are added/removed
 
-## Desenvolvimento Local
+## Local Development
 
 ```bash
-# Criar ambiente virtual
+# Create virtual environment
 python -m venv venv
 source venv/bin/activate
 
-# Instalar dependências
+# Install dependencies
 pip install -r requirements.txt
 
-# Rodar migrations
+# Run migrations
 python manage.py migrate
 
-# Ingerir dados do CSV
+# Ingest CSV data
 python manage.py ingest_csv ../consumers_balances.csv
 
-# Rodar servidor
+# Run server
 python manage.py runserver
 ```
 
 ## Docker
 
 ```bash
-# Build e run
+# Build and run
 docker compose up --build
 
-# Rodar migrations
+# Run migrations
 docker compose exec web python manage.py migrate
 ```
 
-## Testes
+## Tests
 
 ```bash
 python manage.py test collection
