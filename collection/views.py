@@ -6,15 +6,15 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
-
-def health_check(request):
-    return JsonResponse({'status': 'ok', 'message': 'Aktos API is running'})
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import Account, Consumer
 from .serializers import AccountSerializer
+
+
+def health_check(request):
+    return JsonResponse({'status': 'ok', 'message': 'Aktos API is running'})
 
 
 class AccountPagination(PageNumberPagination):
