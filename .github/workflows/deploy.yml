@@ -56,12 +56,30 @@ jobs:
     steps:
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+          REPO: ${{ github.repository }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          envs: DOCKERHUB_USERNAME,SECRET_KEY,ALLOWED_HOSTS,REPO
           script: |
+            # Clone repo if not exists
+            if [ ! -d ~/aktos_challenge ]; then
+              git clone https://github.com/$REPO.git ~/aktos_challenge
+            fi
+
             cd ~/aktos_challenge
+            git pull origin main
+
+            # Export env vars for docker compose
+            export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME
+            export SECRET_KEY=$SECRET_KEY
+            export ALLOWED_HOSTS=$ALLOWED_HOSTS
+
             docker compose pull
             docker compose down
             docker compose up -d
