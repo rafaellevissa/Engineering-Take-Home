@@ -13,6 +13,19 @@ from .serializers import AccountSerializer
 
 
 class AccountPagination(PageNumberPagination):
+    """
+    Page number pagination for accounts.
+
+    Pros:
+    - Simple to use and understand
+    - Allows jumping to specific pages
+    - Good for UI with page numbers
+
+    Cons:
+    - Can have inconsistent results if data changes between requests
+    - Not ideal for very large datasets (counting total pages is expensive)
+    - Page numbers can shift when items are added/deleted
+    """
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
