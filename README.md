@@ -1,4 +1,4 @@
-# Aktos Challenge API
+# ---- Challenge API
 
 Debt collection account management API.
 

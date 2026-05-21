@@ -14,7 +14,7 @@ from .serializers import AccountSerializer
 
 
 def health_check(request):
-    return JsonResponse({'status': 'ok', 'message': 'Aktos API is running'})
+    return JsonResponse({'status': 'ok', 'message': 'API is running'})
 
 
 class AccountPagination(PageNumberPagination):

@@ -1,6 +1,6 @@
 services:
   web:
-    image: ${DOCKERHUB_USERNAME:-local}/aktos-challenge:${IMAGE_TAG:-latest}
+    image: ${DOCKERHUB_USERNAME:-local}/challenge:${IMAGE_TAG:-latest}
     build: .
     ports:
       - "8000:8000"

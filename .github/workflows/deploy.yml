@@ -45,8 +45,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/aktos-challenge:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/aktos-challenge:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/challenge:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/challenge:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -68,11 +68,11 @@ jobs:
           envs: DOCKERHUB_USERNAME,SECRET_KEY,ALLOWED_HOSTS,REPO
           script: |
             # Clone repo if not exists
-            if [ ! -d ~/aktos_challenge ]; then
-              git clone https://github.com/$REPO.git ~/aktos_challenge
+            if [ ! -d ~/challenge ]; then
+              git clone https://github.com/$REPO.git ~/challenge
             fi
 
-            cd ~/aktos_challenge
+            cd ~/challenge
             git pull origin main
 
             # Export env vars for docker compose
